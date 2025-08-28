@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using System;
 
 namespace PointsBet_Backend_Online_Code_Test
 {
@@ -19,15 +19,18 @@ namespace PointsBet_Backend_Online_Code_Test
         {
             if (items == null || items.Length == 0) { return string.Empty; }
 
-            StringBuilder qry = new StringBuilder();
-            foreach (var item in items)
+            var formattedItems = new List<string>(); // an array might be faster, but the quality of items is unknown
+            for (int i = 0; i < items.Length; i++)
             {
-                item = removeLeadingAndTrailingWhiteSpace ? item.Trim() : item;
+                var item = removeLeadingAndTrailingWhiteSpace ? item[i].Trim() : item[i];
                 if (excludeEmptyItems && string.IsNullOrWhitespace(item)) { continue; }
-                qry.Append($"{quote}{items[i]}{quote}{(isFirst ? string.Empty : separator)}{(!isFirst && includeSpaceAfterSeparator ? " " : string.Empty)}");
+                formattedItems.Add($"{quote}{item}{quote}");
             }
 
-            return qry.ToString();
+            var joinSequence = separator;
+            if (includeSpaceAfterSeparator) { separator += " "; }
+
+            return string.Join(joinSequence, formattedItems);
 
             // Have I overthought this, yeah, its very open ended, so I went with utility
 
@@ -40,16 +43,6 @@ namespace PointsBet_Backend_Online_Code_Test
             // there are a raft of optional parameters to guide its behaviour.
             // In a similar vein, how are nulls/empty items handled, trimming whitespace?
             // Maybe you want different separators (not all files called CSV files are comma separated)
-
-            // With an unknown size of items, a StringBuilder may be safer than using string.Join.
-            // If items has been sanitized, you're confident in the content of the items array 
-            // and its size is on the smaller end and dont need to perform null/empty/whitespace detection,
-            // then use:
-            // return string.Join(", ", items.Select(item => $"{quote}{item}{quote}"));
-            // along with the validation in the first line of this method and be done with it.
-
-            // Typically, writing a method like I ahve done above is not my preference because it increases 
-            // complexity needlessly and makes maintenance that much more difficult.
         }
     }
 }
