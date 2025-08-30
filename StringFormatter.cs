@@ -14,7 +14,34 @@ namespace PointsBet_Backend_Online_Code_Test
     */
     public class StringFormatter
     {
-        //Code to improve
+        /// <summary>
+        /// Utiity method that converts an array of strings into a single comma-separated list, 
+        /// with optional quoting, trimming, and empty-item filtering.
+        /// </summary>
+        /// <param name="items">The array of strings to combine into a list.</param>
+        /// <param name="quote">The string (character  sequence) to wrap each item in. Defaults to a double quote (<c>"</c>).</param>
+        /// <param name="separator">The separator string (character sequence) between items. Defaults to a comma (<c>,</c>).</param>
+        /// <param name="excludeEmptyItems">
+        /// If <c>true</c>, empty or whitespace-only items will be excluded from the result. Defaults to <c>false</c>.
+        /// </param>
+        /// <param name="removeLeadingAndTrailingWhiteSpace">
+        /// If <c>true</c>, trims whitespace from the start and end of each item before processing. Defaults to <c>false</c>.
+        /// </param>
+        /// <param name="includeSpaceAfterSeparator">
+        /// If <c>true</c>, a space will be added after each separator for readability. Defaults to <c>true</c>.
+        /// </param>
+        /// <returns>
+        /// A single string containing the formatted, comma-separated (or whatever-specified-seperator-seperated) list. 
+        /// Returns <see cref="string.Empty"/> if <paramref name="items"/> is <c>null</c> or empty.
+        /// </returns>
+        /// <example>
+        /// Example usage:
+        /// <code>
+        /// var items = new[] { "Hello", " Sensational ", "World", "" };
+        /// var result = ToCommaSeparatedList(items, "\"", ",", true, true, true);
+        /// // Result: "\"Hello\", \"Sensational\", \"World\""
+        /// </code>
+        /// </example>
         public static string ToCommaSeparatedList(string[] items, string quote = "\"", string separator = ",", bool excludeEmptyItems = false, bool removeLeadingAndTrailingWhiteSpace = false, bool includeSpaceAfterSeparator = true)
         {
             if (items == null || items.Length == 0) { return string.Empty; }
